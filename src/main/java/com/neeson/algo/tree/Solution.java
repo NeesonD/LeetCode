@@ -1,6 +1,8 @@
 package com.neeson.algo.tree;
 
 
+import java.util.Arrays;
+
 /**
  * @author daile
  * @version 1.0
@@ -57,18 +59,137 @@ public class Solution {
      * @return
      */
     public boolean hasPathSum(TreeNode root, int sum) {
+
+        return traverse(root, 0, sum);
+    }
+
+    public boolean traverse(TreeNode root, int carry, int sum) {
         if (root == null) {
             return false;
         }
-        return hasPathSum2(root, sum);
+        // 这里保证是最末尾的节点
+        if (root.left == null && root.right == null) {
+            return sum == carry + root.val;
+        }
+        carry = carry + root.val;
+        return traverse(root.left, carry, sum) || traverse(root.right, carry, sum);
     }
 
-    public boolean hasPathSum2(TreeNode root, int sum) {
-        if (root == null) {
-            return sum == 0;
+    /**
+     * 反推树
+     *
+     * @param inorder
+     * @param postorder
+     * @return
+     */
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if (inorder == null || inorder.length == 0) {
+            return null;
         }
-        int tmpSum = sum - root.val;
-        return hasPathSum(root.left, tmpSum) || hasPathSum(root.right, tmpSum);
+        if (inorder.length == 1) {
+            return new TreeNode(inorder[0]);
+        }
+        // 后置遍历，最末尾是 root 节点
+        TreeNode root = new TreeNode(postorder[postorder.length - 1]);
+
+        // 找到 root 节点在中置中的索引
+        int rootIndexInOrder = -1;
+        for (int i = 0; i < inorder.length; i++) {
+            if (inorder[i] == root.val) {
+                rootIndexInOrder = i;
+                break;
+            }
+        }
+
+        root.left = buildTree(Arrays.copyOfRange(inorder, 0, rootIndexInOrder),
+                Arrays.copyOfRange(postorder, 0, rootIndexInOrder)
+        );
+
+        root.right = buildTree(Arrays.copyOfRange(inorder, rootIndexInOrder + 1, inorder.length),
+                Arrays.copyOfRange(postorder, rootIndexInOrder, postorder.length - 1)
+        );
+
+        return root;
+
+    }
+
+
+    /**
+     * 反推树
+     *
+     * @param inorder
+     * @param preorder
+     * @return
+     */
+    public TreeNode buildTreeFrom(int[] preorder, int[] inorder) {
+        if (preorder == null || preorder.length == 0) {
+            return null;
+        }
+        if (preorder.length == 1) {
+            return new TreeNode(preorder[0]);
+        }
+
+        TreeNode root = new TreeNode(preorder[0]);
+
+        int rootIndex = -1;
+        for (int i = 0; i < inorder.length; i++) {
+            if (inorder[i] == root.val) {
+                rootIndex = i;
+                break;
+            }
+        }
+
+        root.left = buildTreeFrom(Arrays.copyOfRange(preorder, 1, rootIndex),
+                Arrays.copyOfRange(inorder, 0, rootIndex)
+        );
+
+        root.right = buildTreeFrom(Arrays.copyOfRange(preorder, rootIndex, preorder.length),
+                Arrays.copyOfRange(inorder, rootIndex + 1, inorder.length)
+        );
+        return root;
+    }
+
+    public Node connect(Node root) {
+        helper(root, null);
+        return root;
+    }
+
+    private void helper(Node root, Node next) {
+        if (root == null) {
+            return;
+        }
+        root.next = next;
+        helper(root.left, root.right);
+        if (next == null) {
+            helper(root.right, null);
+        } else {
+            helper(root.right, next.left);
+        }
+    }
+
+    public Node connect2(Node root) {
+        helper2(root, null);
+        return root;
+    }
+
+    private void helper2(Node current, Node parent) {
+        if (current == null) {
+            return;
+        }
+        while (parent != null) {
+            if (parent.left != null && parent.left != current) {
+                current.next = parent.left;
+                break;
+            } else if (parent.right != null) {
+                current.next = parent.right;
+                break;
+            } else {
+                parent = parent.next;
+            }
+        }
+
+        helper2(current.left, current);
+        helper2(current.right, current.next);
     }
 }
 
