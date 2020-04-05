@@ -12,7 +12,7 @@ public class Solution {
             return;
         }
         int lo = 0;
-        int hi = s.length-1;
+        int hi = s.length - 1;
         reverseString(s, lo, hi);
     }
 
@@ -21,7 +21,7 @@ public class Solution {
             return;
         }
         swap(s, lo, hi);
-        reverseString(s,lo + 1, hi -1);
+        reverseString(s, lo + 1, hi - 1);
     }
 
     private void swap(char[] chars, int lo, int hi) {
@@ -54,7 +54,7 @@ public class Solution {
         tmp.next = current;
         current = tmp;
         pred.next = current;
-        swap(current.next,current.next.next);
+        swap(current.next, current.next.next);
     }
 
     public ListNode reverseList(ListNode head) {
@@ -64,11 +64,10 @@ public class Solution {
         if (head.next == null) {
             return head;
         }
-        ListNode tmp = head.next;
         ListNode listNode = reverseList(head.next);
-        tmp.next = head;
-        head = listNode;
-        return head;
+        head.next.next = head;
+        head.next = null;
+        return listNode;
     }
 
 
