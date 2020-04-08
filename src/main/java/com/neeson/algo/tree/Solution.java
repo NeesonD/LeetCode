@@ -194,6 +194,7 @@ public class Solution {
         helper2(current.right, current.next);
     }
 
+    private TreeNode result;
 
     /**
      * Lowest Common Ancestor of a Binary Tree
@@ -203,21 +204,26 @@ public class Solution {
      * @return
      */
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        List<TreeNode> pList = new ArrayList<>();
-        List<TreeNode> qList = new ArrayList<>();
-        helper(root, p, pList);
-        helper(root, p, qList);
-        return null;
+        helper(root, p, q);
+        return result;
     }
 
-    private void helper(TreeNode root, TreeNode p, List<TreeNode> pList) {
-        pList.add(root);
-        if (root.val == p.val) {
-        } else if (root.val > p.val) {
-            helper(root.left, p, pList);
-        } else {
-            helper(root.right, p, pList);
+    private boolean helper(TreeNode curr, TreeNode p, TreeNode q) {
+
+        if (curr == null) {
+            return false;
         }
+
+        int left = helper(curr.left, p, q) ? 1 : 0;
+        int right = helper(curr.right, p, q) ? 1 : 0;
+
+        int i = (curr.val == p.val || curr.val == q.val) ? 1 : 0;
+
+        if ((left + right + i) >= 2) {
+            result = curr;
+        }
+
+        return (left + right + i) > 0;
     }
 }
 
