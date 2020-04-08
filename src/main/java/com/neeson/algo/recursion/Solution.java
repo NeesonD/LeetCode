@@ -2,7 +2,10 @@ package com.neeson.algo.recursion;
 
 import com.neeson.algo.tree.TreeNode;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -177,6 +180,12 @@ public class Solution {
 
     }
 
+    /**
+     * 合并两个有序链表
+     * @param l1
+     * @param l2
+     * @return
+     */
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         if (l1 == null) {
             return l2;
@@ -209,6 +218,32 @@ public class Solution {
             }
         }
     }
+
+    /**
+     * Pascal's Triangle II
+     * @param rowIndex
+     * @return
+     */
+    public List<Integer> getRow(int rowIndex) {
+        if (rowIndex == 0) {
+            return new ArrayList<>(Arrays.asList(1));
+        }
+
+        List<Integer> predRow = getRow(rowIndex - 1);
+
+        List<Integer> currRow = new ArrayList<>();
+        // 添加第一个节点
+        currRow.add(1);
+        // 添加中间节点
+        for (int i = 0; i < predRow.size() -1; i++) {
+            currRow.add(predRow.get(i) + predRow.get(i + 1));
+        }
+        // 添加末节点
+        currRow.add(1);
+        return currRow;
+    }
+
+
 
 
 }

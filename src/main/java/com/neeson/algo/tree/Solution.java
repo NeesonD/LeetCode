@@ -1,7 +1,9 @@
 package com.neeson.algo.tree;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author daile
@@ -190,6 +192,32 @@ public class Solution {
 
         helper2(current.left, current);
         helper2(current.right, current.next);
+    }
+
+
+    /**
+     * Lowest Common Ancestor of a Binary Tree
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        List<TreeNode> pList = new ArrayList<>();
+        List<TreeNode> qList = new ArrayList<>();
+        helper(root, p, pList);
+        helper(root, p, qList);
+        return null;
+    }
+
+    private void helper(TreeNode root, TreeNode p, List<TreeNode> pList) {
+        pList.add(root);
+        if (root.val == p.val) {
+        } else if (root.val > p.val) {
+            helper(root.left, p, pList);
+        } else {
+            helper(root.right, p, pList);
+        }
     }
 }
 
