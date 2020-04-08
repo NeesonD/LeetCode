@@ -225,5 +225,42 @@ public class Solution {
 
         return (left + right + i) > 0;
     }
+
+    /**
+     * Unique Binary Search Trees II
+     * @param n
+     * @return
+     */
+    public List<TreeNode> generateTrees(int n) {
+        if(n == 0) {
+            return  new ArrayList<>();
+        }
+        return generateTrees(1, n);
+    }
+
+    private List<TreeNode> generateTrees(int start, int end) {
+        List<TreeNode> list = new ArrayList<>();
+        if (start > end) {
+            list.add(null);
+            return list;
+        }
+        for (int i = start; i <=end; i++) {
+            List<TreeNode> leftSubTree = generateTrees(start, i - 1);
+            List<TreeNode> rightSubTree = generateTrees(i + 1, end);
+
+            for (int j = 0; j < leftSubTree.size(); j++) {
+                TreeNode left = leftSubTree.get(j);
+                for (int k = 0; k < rightSubTree.size(); k++) {
+                    TreeNode right = rightSubTree.get(k);
+                    TreeNode now = new TreeNode(i);
+                    now.left = left;
+                    now.right = right;
+                    list.add(now);
+                }
+            }
+        }
+        return list;
+    }
+
 }
 
