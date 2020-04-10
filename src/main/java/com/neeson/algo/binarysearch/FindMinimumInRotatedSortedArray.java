@@ -8,10 +8,10 @@ package com.neeson.algo.binarysearch;
 public class FindMinimumInRotatedSortedArray {
 
     public int findMin(int[] nums) {
-        int left = 0, right = nums.length, mid = 0;
+        int left = 0, right = nums.length -1, mid;
         while (left < right) {
             mid = left + (right - left)/2;
-            if (nums[mid] < nums[right]) {
+            if (nums[mid] > nums[nums.length -1]) {
                 left = mid + 1;
             } else {
                 right = mid;
