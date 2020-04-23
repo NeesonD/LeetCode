@@ -23,4 +23,8 @@ public class Node {
         right = _right;
         next = _next;
     }
+
+    public Node[] adj() {
+        return new Node[0];
+    }
 }
