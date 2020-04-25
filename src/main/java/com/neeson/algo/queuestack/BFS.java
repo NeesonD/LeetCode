@@ -15,8 +15,8 @@ import java.util.Set;
 public class BFS {
 
     int BFS(Node start, Node end) {
-        Queue<Node> queue = new ArrayDeque<>();
         Set<Node> visited = new HashSet<>();
+        Queue<Node> queue = new ArrayDeque<>();
 
         queue.offer(start);
         visited.add(start);
