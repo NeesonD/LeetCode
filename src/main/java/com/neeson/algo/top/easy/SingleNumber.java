@@ -1,4 +1,4 @@
-package com.neeson.algo.top;
+package com.neeson.algo.top.easy;
 
 /**
  * @author daile
